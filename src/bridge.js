@@ -19,6 +19,8 @@ if (process.env.ARRPC_BRIDGE_PORT) {
 }
 const wss = new WebSocketServer({ port });
 
+const ws = new WebSocket('wss://127.0.0.1:1337', { rejectUnauthorized: false }); // connect to arRPC bridge websocket
+
 wss.on('connection', socket => {
   log('web connected');
 

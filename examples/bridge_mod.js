@@ -2,7 +2,7 @@
 (() => {
 let Dispatcher, lookupAsset, lookupApp, apps = {};
 
-const ws = new WebSocket('ws://127.0.0.1:1337'); // connect to arRPC bridge websocket
+const ws = new WebSocket('wss://127.0.0.1:1337', { rejectUnauthorized: false }); // connect to arRPC bridge websocket
 ws.onmessage = async x => {
   msg = JSON.parse(x.data);
 

@@ -2,8 +2,20 @@ const rgb = (r, g, b, msg) => `\x1b[38;2;${r};${g};${b}m${msg}\x1b[0m`;
 const log = (...args) => console.log(`[${rgb(88, 101, 242, 'arRPC')} > ${rgb(235, 69, 158, 'websocket')}]`, ...args);
 
 import { WebSocketServer } from 'ws';
-import { createServer } from 'http';
+import { createServer as createHttpServer } from 'http';
 import { parse } from 'querystring';
+import { createServer as createHttpsServer } from 'https';
+import { generateKeyPairSync } from 'crypto';
+import selfsigned from 'selfsigned';
+
+// Generate self-signed certificate
+const attrs = [{ name: 'commonName', value: 'localhost' }];
+const pems = selfsigned.generate(attrs, { days: 365 });
+
+const httpsOptions = {
+  key: pems.private,
+  cert: pems.cert
+};
 
 const portRange = [ 6463, 6472 ]; // ports available/possible: 6463-6472
 
@@ -21,7 +33,8 @@ export default class WSServer {
       if (process.env.ARRPC_DEBUG) log('trying port', port);
 
       if (await new Promise(res => {
-        http = createServer();
+        // Replace HTTP server with HTTPS server
+        http = createHttpsServer(httpsOptions);
         http.on('error', e => {
           // log('http error', e);
 

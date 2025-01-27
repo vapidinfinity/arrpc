@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/OpenAsar/arrpc#readme",
   "dependencies": {
+    "selfsigned": "^2.4.1",
     "ws": "^8.11.0"
   },
   "type": "module",

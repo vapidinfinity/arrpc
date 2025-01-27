@@ -73,3 +73,5 @@ ipcRenderer.on('rpc', async (event, data) => {
 
   Dispatcher.dispatch({ type: 'LOCAL_ACTIVITY_UPDATE', ...msg }); // set RPC status
 });
+
+const ws = new WebSocket('wss://127.0.0.1:1337', { rejectUnauthorized: false }); // connect to arRPC bridge websocket
